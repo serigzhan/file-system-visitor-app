@@ -32,8 +32,8 @@ namespace FileSystemVisitorApp
 
             var visitor = new FileSystemVisitor(
                 path,
-                fileName => fileName.EndsWith(".png"),
-                dirName => Path.GetFileName(dirName).StartsWith("chrome", StringComparison.CurrentCultureIgnoreCase)
+                fileName => fileName.EndsWith(".txt"),
+                dirName => Path.GetFileName(dirName).StartsWith("test", StringComparison.CurrentCultureIgnoreCase)
             );
 
             visitor.Start += (sender, e) => Console.WriteLine("Search started");
