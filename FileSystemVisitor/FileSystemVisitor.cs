@@ -77,7 +77,10 @@ namespace FileSystemVisitorApp
                 var args = new FileSystemVisitorEventArgs(dir);
                 DirectoryFound?.Invoke(this, args);
 
-                if (args.Abort) yield break;
+                if (args.Abort)
+                {
+                    throw new OperationCanceledException("User requested exit.");
+                }
 
                 if (!args.Exlude)
                 {

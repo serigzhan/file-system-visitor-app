@@ -10,12 +10,12 @@ namespace FileSystemVisitorApp
         {
             string path = string.Empty;
 
-            while(true)
+            while (true)
             {
                 Console.Write("Enter path to visit: ");
                 path = Console.ReadLine()?.Trim() ?? string.Empty;
 
-                if (string.IsNullOrWhiteSpace(path) )
+                if (string.IsNullOrWhiteSpace(path))
                 {
                     Console.WriteLine("Path cannot be empty.");
                     continue;
@@ -44,11 +44,22 @@ namespace FileSystemVisitorApp
 
             visitor.FilteredFileFound += (sender, e) => Console.WriteLine($"Filterd file: {Path.GetFileName(e.Path)}");
 
-            visitor.DirectoryFound += (sender, e) => Console.WriteLine($"Directory Found: {Path.GetFileName(e.Path)}");
+            visitor.DirectoryFound += (sender, e) =>
+            {
+                Console.WriteLine($"Directory Found: {Path.GetFileName(e.Path)}");
+                e.Abort = e.Path.Contains("Abort");
+            };
+
 
             visitor.FilteredDirectoryFound += (sender, e) => Console.WriteLine($"Filtered Directory: {Path.GetFileName(e.Path)}");
 
-            visitor.Visit();
+            try
+            {
+                visitor.Visit();
+            } catch (OperationCanceledException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
     }
